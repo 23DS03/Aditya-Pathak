@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Myntra Clone – HTML/CSS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --brand:#ff3e6c; /* Myntra-ish pink */
+      --brand-dark:#e63661;
+      --ink:#1f2937;
+      --ink-2:#4b5563;
+      --muted:#9ca3af;
+      --line:#e5e7eb;
+      --bg:#ffffff;
+      --bg-2:#fafafa;
+      --success:#10b981;
+      --warning:#f59e0b;
+      --radius:16px;
+      --shadow:0 6px 24px rgba(0,0,0,.06);
+      --max:1200px;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--ink);background:var(--bg)}
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+
+    /* Top promo bar */
+    .promo{background:var(--ink);color:#fff;font-size:12px}
+    .promo .wrap{max-width:var(--max);margin:0 auto;padding:8px 16px;display:flex;gap:12px;align-items:center;justify-content:center}
+    .pill{background:#111827;border:1px solid #374151;color:#e5e7eb;padding:2px 8px;border-radius:999px}
+
+    /* Header */
+    .header{position:sticky;top:0;z-index:50;background:var(--bg);box-shadow:0 0 0 1px var(--line)}
+    .header .wrap{max-width:var(--max);margin:0 auto;padding:14px 16px;display:grid;grid-template-columns:140px 1fr auto;gap:16px;align-items:center}
+    .brand{display:flex;align-items:center;gap:10px}
+    .logo{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#ff8ab0, var(--brand));display:grid;place-items:center;color:#fff;font-weight:800;letter-spacing:.5px}
+    .brand h1{font-size:18px;margin:0;font-weight:700;letter-spacing:.2px}
+
+    .nav{display:flex;gap:18px;align-items:center}
+    .nav a{font-size:13px;font-weight:600;color:#111827;letter-spacing:.3px;padding:8px 0;position:relative}
+    .nav a:hover{color:var(--brand)}
+    .nav a.is-new::after{content:"NEW";position:absolute;top:-10px;right:-12px;background:#fde68a;color:#92400e;font-size:9px;padding:2px 4px;border-radius:4px}
+
+    .search{display:flex;gap:8px;align-items:center}
+    .search .field{flex:1;display:flex;gap:8px;align-items:center;padding:10px 12px;border:1px solid var(--line);border-radius:999px;background:var(--bg-2)}
+    .search input{border:0;outline:0;background:transparent;width:100%;font-size:14px}
+
+    .actions{display:flex;gap:16px;align-items:center}
+    .act{display:grid;gap:4px;place-items:center;font-size:11px;color:var(--ink-2)}
+    .icon{width:22px;height:22px}
+    .bag{position:relative}
+    .badge{position:absolute;top:-6px;right:-8px;background:var(--brand);color:#fff;border-radius:999px;font-size:10px;line-height:1;padding:3px 5px;border:2px solid #fff}
+
+    /* Hero */
+    .hero{background:linear-gradient(135deg,#fff,#fff 40%,#ffe5ec);border-bottom:1px solid var(--line)}
+    .hero .wrap{max-width:var(--max);margin:0 auto;padding:28px 16px 36px;display:grid;grid-template-columns:1.2fr .8fr;gap:28px;align-items:center}
+    .hero h2{font-size:40px;line-height:1.05;margin:0 0 12px}
+    .hero p{margin:0 0 24px;color:var(--ink-2)}
+    .cta{display:flex;gap:10px;align-items:center}
+    .btn{background:var(--brand);color:#fff;border:0;padding:12px 18px;border-radius:999px;font-weight:700;cursor:pointer;box-shadow:var(--shadow)}
+    .btn:hover{background:var(--brand-dark)}
+    .btn.outline{background:#fff;color:var(--brand);border:1px solid var(--brand)}
+    .banner{border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow)}
+
+    /* Category chips */
+    .chips{max-width:var(--max);margin:18px auto 0;padding:0 16px 24px;display:flex;gap:10px;flex-wrap:wrap}
+    .chip{padding:8px 12px;border:1px solid var(--line);border-radius:999px;background:#fff;font-size:13px}
+    .chip:hover{border-color:var(--brand);color:var(--brand)}
+
+    /* Product grid */
+    .section{max-width:var(--max);margin:0 auto;padding:28px 16px}
+    .section h3{margin:0 0 14px;font-size:22px}
+    .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+    .card{border:1px solid var(--line);border-radius:16px;overflow:hidden;background:#fff;transition:transform .15s ease, box-shadow .15s ease}
+    .card:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+    .thumb{aspect-ratio:4/5;background:#f3f4f6;display:grid;place-items:center}
+    .info{padding:10px 12px}
+    .brandname{font-weight:700;font-size:14px;margin:0 0 2px}
+    .title{font-size:12px;color:var(--ink-2);margin:0 0 8px}
+    .price{display:flex;gap:8px;align-items:center}
+    .cur{font-weight:700}
+    .mrp{text-decoration:line-through;color:var(--muted);font-size:12px}
+    .off{color:var(--success);font-size:12px;font-weight:600}
+
+    /* Banner row */
+    .banners{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .banner-card{border-radius:16px;overflow:hidden;position:relative}
+    .banner-card .tag{position:absolute;left:12px;bottom:12px;background:#000c;color:#fff;padding:8px 10px;border-radius:999px;font-size:12px;backdrop-filter:blur(6px)}
+
+    /* Footer */
+    footer{background:#111827;color:#e5e7eb;margin-top:36px}
+    .ft-wrap{max-width:var(--max);margin:0 auto;padding:32px 16px;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:24px}
+    .ft h4{margin:0 0 10px;font-size:14px;color:#fff}
+    .ft a{display:block;color:#cbd5e1;font-size:13px;padding:6px 0}
+    .sub{border-top:1px solid #1f2937;padding:16px;margin-top:8px;font-size:12px;color:#94a3b8;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+
+    /* Responsive */
+    @media (max-width: 1024px){
+      .header .wrap{grid-template-columns:120px 1fr auto}
+      .grid{grid-template-columns:repeat(3,1fr)}
+      .banners{grid-template-columns:repeat(2,1fr)}
+      .hero .wrap{grid-template-columns:1fr;gap:18px}
+    }
+    @media (max-width: 720px){
+      .nav{display:none}
+      .header .wrap{grid-template-columns:1fr auto}
+      .brand h1{display:none}
+      .grid{grid-template-columns:repeat(2,1fr)}
+      .ft-wrap{grid-template-columns:1fr 1fr}
+    }
+    @media (max-width: 420px){
+      .grid{grid-template-columns:1fr}
+      .ft-wrap{grid-template-columns:1fr}
+      .promo .wrap{padding:8px}
+    }
+  </style>
+</head>
+<body>
+  <!-- Promo strip -->
+  <div class="promo">
+    <div class="wrap">
+      <span class="pill">Big Fashion Festival</span>
+      <span>Free Shipping on orders over ₹799 • Easy Returns</span>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="wrap">
+      <a class="brand" href="#">
+        <div class="logo">M</div>
+        <h1>MYNTRA</h1>
+      </a>
+
+      <nav class="nav" aria-label="Primary">
+        <a href="#">MEN</a>
+        <a href="#">WOMEN</a>
+        <a href="#">KIDS</a>
+        <a href="#">HOME & LIVING</a>
+        <a href="#">BEAUTY</a>
+        <a href="#" class="is-new">STUDIO</a>
+      </nav>
+
+      <div class="search">
+        <div class="field" role="search">
+          <!-- search icon -->
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input placeholder="Search for products, brands and more" aria-label="Search"/>
+        </div>
+        <div class="actions">
+          <div class="act" title="Profile">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21a8 8 0 0 0-16 0"/><circle cx="12" cy="7" r="4"/></svg>
+            <span>Profile</span>
+          </div>
+          <div class="act" title="Wishlist">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            <span>Wishlist</span>
+          </div>
+          <div class="act bag" title="Bag">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2l1 5h10l1-5"/><path d="M3 7h18l-1.5 12.5a2 2 0 0 1-2 1.5H6.5a2 2 0 0 1-2-1.5L3 7z"/><path d="M16 11a4 4 0 0 1-8 0"/></svg>
+            <span>Bag</span>
+            <span class="badge" aria-label="2 items">2</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="wrap">
+      <div>
+        <h2>Fresh Fits for Every Mood</h2>
+        <p>Shop the latest drops in streetwear, ethnic, essentials & more. Handpicked styles, lightning-fast delivery.</p>
+        <div class="cta">
+          <button class="btn">Shop Women</button>
+          <button class="btn outline">Shop Men</button>
+        </div>
+        <div class="chips" aria-label="Popular filters">
+          <span class="chip">Kurtas</span>
+          <span class="chip">Sneakers</span>
+          <span class="chip">Dresses</span>
+          <span class="chip">Denim</span>
+          <span class="chip">Beauty</span>
+          <span class="chip">Home</span>
+        </div>
+      </div>
+      <div class="banner">
+        <img src="https://picsum.photos/960/600?random=15" alt="Festival sale banner" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Banners row -->
+  <section class="section" aria-label="Promotions">
+    <div class="banners">
+      <a class="banner-card" href="#">
+        <img src="https://picsum.photos/800/400?random=21" alt="Mega Deals"/>
+        <span class="tag">Mega Deals • Upto 70% Off</span>
+      </a>
+      <a class="banner-card" href="#">
+        <img src="https://picsum.photos/800/400?random=22" alt="Top Brands"/>
+        <span class="tag">Top Brands at Steal Prices</span>
+      </a>
+      <a class="banner-card" href="#">
+        <img src="https://picsum.photos/800/400?random=23" alt="Ethnic Edit"/>
+        <span class="tag">Festive Ethnic Edit</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- Products -->
+  <section class="section" aria-label="Just for you">
+    <h3>Just For You</h3>
+    <div class="grid">
+      <!-- Repeatable product card -->
+      <article class="card">
+        <div class="thumb"><img src="https://picsum.photos/600/750?random=31" alt="Product"/></div>
+        <div class="info">
+          <p class="brandname">H&M</p>
+          <p class="title">Relaxed Fit Cotton T‑Shirt</p>
+          <div class="price">
+            <span class="cur">₹599</span>
+            <span class="mrp">₹799</span>
+            <span class="off">(25% OFF)</span>
+          </div>
+        </div>
+      </article>
+      <article class="card">
+        <div class="thumb"><img src="https://picsum.photos/600/750?random=32" alt="Product"/></div>
+        <div class="info">
+          <p class="brandname">Roadster</p>
+          <p class="title">Slim Fit Jeans</p>
+          <div class="price"><span class="cur">₹1,399</span><span class="mrp">₹2,799</span><span class="off">(50% OFF)</span></div>
+        </div>
+      </article>
+      <article class="card">
+        <div class="thumb"><img src="https://picsum.photos/600/750?random=33" alt="Product"/></div>
+        <div class="info">
+          <p class="brandname">Libas</p>
+          <p class="title">Printed Anarkali Kurta</p>
+          <div class="price"><span class="cur">₹999</span><span class="mrp">₹1,999</span><span class="off">(50% OFF)</span></div>
+        </div>
+      </article>
+      <article class="card">
+        <div class="thumb"><img src="https://picsum.photos/600/750?random=34" alt="Product"/></div>
+        <div class="info">
+          <p class="brandname">Nike</p>
+          <p class="title">Court Vision Low Sneakers</p>
+          <div class="price"><span class="cur">₹4,995</span><span class="mrp">₹5,995</span><span class="off">(17% OFF)</span></div>
+        </div>
+      </article>
+      <article class="card">
+        <div class="thumb"><img src="https://picsum.photos/600/750?random=35" alt="Product"/></div>
+        <div class="info">
+          <p class="brandname">W</p>
+          <p class="title">Floral A‑Line Dress</p>
+          <div class="price"><span class="cur">₹1,299</span><span class="mrp">₹2,599</span><span class="off">(50% OFF)</span></div>
+        </div>
+      </article>
+      <article class="card">
+        <div class="thumb"><img src="https://picsum.photos/600/750?random=36" alt="Product"/></div>
+        <div class="info">
+          <p class="brandname">HRX</p>
+          <p class="title">Running Shorts</p>
+          <div class="price"><span class="cur">₹699</span><span class="mrp">₹999</span><span class="off">(30% OFF)</span></div>
+        </div>
+      </article>
+      <article class="card">
+        <div class="thumb"><img src="https://picsum.photos/600/750?random=37" alt="Product"/></div>
+        <div class="info">
+          <p class="brandname">Lakmé</p>
+          <p class="title">9 to 5 Primer + Matte Lipstick</p>
+          <div class="price"><span class="cur">₹399</span><span class="mrp">₹499</span><span class="off">(20% OFF)</span></div>
+        </div>
+      </article>
+      <article class="card">
+        <div class="thumb"><img src="https://picsum.photos/600/750?random=38" alt="Product"/></div>
+        <div class="info">
+          <p class="brandname">Home Centre</p>
+          <p class="title">Cotton Printed Bedsheet</p>
+          <div class="price"><span class="cur">₹1,199</span><span class="mrp">₹1,999</span><span class="off">(40% OFF)</span></div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- Popular categories -->
+  <section class="section" aria-label="Popular categories">
+    <h3>Popular Categories</h3>
+    <div class="grid">
+      <a class="card" href="#">
+        <div class="thumb"><img src="https://picsum.photos/600/750?random=41" alt="T‑Shirts"/></div>
+        <div class="info"><p class="brandname">T‑Shirts</p><p class="title">Under ₹699</p></div>
+      </a>
+      <a class="card" href="#">
+        <div class="thumb"><img src="https://picsum.photos/600/750?random=42" alt="Sarees"/></div>
+        <div class="info"><p class="brandname">Sarees</p><p class="title">Festive Picks</p></div>
+      </a>
+      <a class="card" href="#">
+        <div class="thumb"><img src="https://picsum.photos/600/750?random=43" alt="Sneakers"/></div>
+        <div class="info"><p class="brandname">Sneakers</p><p class="title">Fresh Arrivals</p></div>
+      </a>
+      <a class="card" href="#">
+        <div class="thumb"><img src="https://picsum.photos/600/750?random=44" alt="Beauty"/></div>
+        <div class="info"><p class="brandname">Beauty</p><p class="title">Best of 2025</p></div>
+      </a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="ft-wrap">
+      <div class="ft">
+        <h4>ONLINE SHOPPING</h4>
+        <a href="#">Men</a>
+        <a href="#">Women</a>
+        <a href="#">Kids</a>
+        <a href="#">Home & Living</a>
+        <a href="#">Beauty</a>
+      </div>
+      <div class="ft">
+        <h4>USEFUL LINKS</h4>
+        <a href="#">Contact Us</a>
+        <a href="#">FAQ</a>
+        <a href="#">Terms Of Use</a>
+        <a href="#">Privacy Policy</a>
+      </div>
+      <div class="ft">
+        <h4>KEEP IN TOUCH</h4>
+        <a href="#">Instagram</a>
+        <a href="#">Facebook</a>
+        <a href="#">Twitter</a>
+        <a href="#">YouTube</a>
+      </div>
+      <div class="ft">
+        <h4>APP EXPERIENCE</h4>
+        <a href="#">Get it on Google Play</a>
+        <a href="#">Download on the App Store</a>
+      </div>
+    </div>
+    <div class="sub">
+      <span>© 2025 Demo Store • This is a non‑commercial educational clone built with HTML & CSS.</span>
+      <span>Made with ♥ for practice.</span>
+    </div>
+  </footer>
+
+</body>
+</html>
